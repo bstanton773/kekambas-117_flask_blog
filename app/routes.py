@@ -119,3 +119,20 @@ def edit_post(post_id):
     form.body.data = post.body
     form.image_url.data = post.image_url
     return render_template('edit.html', form=form, post=post)
+
+
+@app.route('/delete/<post_id>')
+@login_required
+def delete_post(post_id):
+    post = db.session.get(Post, post_id)
+    if post is None:
+        flash(f"Post with an ID of {post_id} does not exist", "danger")
+        return redirect(url_for('index'))
+    elif post.author != current_user:
+        flash('You do not have permission to delete this post', 'danger')
+        return redirect(url_for('index'))
+    
+    db.session.delete(post)
+    db.session.commit()
+    flash(f'{post.title} has been deleted', 'success')
+    return redirect(url_for('index'))

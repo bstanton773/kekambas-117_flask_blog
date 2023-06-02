@@ -31,8 +31,28 @@
                             <p class="card-text">{{ post.body }}</p>
                             {% if post.author == current_user %}
                                 <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-success">Edit Post</a>
-                                <button class="btn btn-danger">Delete Post</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal-{{ post.id }}">
+                                    Delete Post
+                                </button>
                             {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="deletePostModal-{{ post.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete {{ post.title }}?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete {{ post.title }}? This action cannot be undone.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-danger">Delete Post</a>
                         </div>
                     </div>
                 </div>
