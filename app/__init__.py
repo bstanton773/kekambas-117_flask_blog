@@ -2,11 +2,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_cors import CORS
 from config import Config
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Allow CORS accross all routes and all domains
+CORS(app)
 
 # Create an instance of SQLAlchemy to connect our app to the database
 db = SQLAlchemy(app)
