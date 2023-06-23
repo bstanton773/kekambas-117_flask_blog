@@ -2,7 +2,7 @@ from flask import request
 from . import api
 from app import db
 from app.models import Post, User
-from .auth import basic_auth
+from .auth import basic_auth, token_auth
 
 @api.route('/token')
 @basic_auth.login_required
@@ -50,3 +50,10 @@ def create_user():
     db.session.add(new_user)
     db.session.commit()
     return new_user.to_dict()
+
+
+@api.route('/me')
+@token_auth.login_required
+def get_me():
+    user = token_auth.current_user()
+    return user.to_dict()
